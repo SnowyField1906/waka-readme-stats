@@ -20,23 +20,19 @@ async def get_waka_time_stats(repositories: Dict, commit_dates: Dict) -> str:
     stats = str()
     data = await DM.get_remote_json("waka_stats")
 
-    if EM.SHOW_COMMIT or EM.SHOW_DAYS_OF_WEEK:
-        commit_list = await make_commit_day_time_list(data['data']['timezone'], repositories, commit_dates)
-        stats += f"{commit_list}\n\n"
+    commit_list = await make_commit_day_time_list(data['data']['timezone'], repositories, commit_dates)
+    stats += f"{commit_list}\n\n"
 
     stats = "📊 **Since my first \"Hello World!\", I have spent time on** \n\n```text\n"
 
-    if EM.SHOW_LANGUAGE:
-        lang_list = make_list(data["data"]["languages"])
-        stats += f"💬 Languages: \n{lang_list}\n\n"
+    lang_list = make_list(data["data"]["languages"])
+    stats += f"💬 Languages: \n{lang_list}\n\n"
 
-    if EM.SHOW_EDITORS:
-        edit_list = make_list(data["data"]["editors"])
-        stats += f"🔥 Editors: \n{edit_list}\n\n"
+    edit_list = make_list(data["data"]["editors"])
+    stats += f"🔥 Editors: \n{edit_list}\n\n"
 
-    if EM.SHOW_OS:
-        os_list = make_list(data["data"]["operating_systems"])
-        stats += f"💻 Operating Systems: \n{os_list}\n\n"
+    os_list = make_list(data["data"]["operating_systems"])
+    stats += f"💻 Operating Systems: \n{os_list}\n\n"
 
     return f"{stats[:-1]}```\n\n"
 
@@ -59,26 +55,18 @@ async def get_stats() -> str:
     yearly_data, commit_data = await calculate_commit_data(repositories)
     stats = await get_waka_time_stats(repositories, commit_data)
 
-    if EM.SHOW_LANGUAGE_PER_REPO:
-        stats += f"{make_language_per_repo_list(repositories)}\n\n"
+    stats += f"{make_language_per_repo_list(repositories)}\n\n"
 
-    if EM.SHOW_LOC_CHART:
-        await create_loc_graph(yearly_data, GRAPH_PATH)
-        stats += f"**Timeline'**\n\n{GHM.update_chart('Lines of Code', GRAPH_PATH)}"
+    data = await DM.get_remote_json("waka_all")
+    data = str(data['data']['text'])
+    stats += f"![I have been coding for](http://img.shields.io/badge/{quote('I have been coding for')}-{quote(data)}-blue)  "
 
-    if EM.SHOW_TOTAL_CODE_TIME:
-        data = await DM.get_remote_json("waka_all")
-        data = str(data['data']['text'])
-        stats += f"![I have been coding for](http://img.shields.io/badge/{quote('I have been coding for')}-{quote(data)}-blue)  "
+    total_loc = sum([yearly_data[y][q][d]["add"] for y in yearly_data.keys() for q in yearly_data[y].keys() for d in yearly_data[y][q].keys()])
+    data = f"{intword(total_loc)} lines of code"
+    stats += f"![Lines of code](https://img.shields.io/badge/{quote('I have been writing')}-{quote(data)}-blue)  "
 
-    if EM.SHOW_LINES_OF_CODE:
-        total_loc = sum([yearly_data[y][q][d]["add"] for y in yearly_data.keys() for q in yearly_data[y].keys() for d in yearly_data[y][q].keys()])
-        data = f"{intword(total_loc)} lines of code"
-        stats += f"![Lines of code](https://img.shields.io/badge/{quote('I have been writing')}-{quote(data)}-blue)  "
-
-    if EM.SHOW_PROFILE_VIEWS:
-        data = GHM.REMOTE.get_views_traffic()
-        stats += f"![Profile views](http://img.shields.io/badge/'Profile views-{data['count']}-blue)\n\n"
+    # data = GHM.REMOTE.get_views_traffic()
+    # stats += f"![Profile views](http://img.shields.io/badge/'Profile views-{data['count']}-blue)\n\n"
 
     return stats
 
