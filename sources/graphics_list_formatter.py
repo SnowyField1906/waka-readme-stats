@@ -14,95 +14,45 @@ WEEK_DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Satur
 
 
 class Symbol(Enum):
-    """
-    Symbol version enum.
-    Allows to retrieve symbols pairs by calling `Symbol.get_symbols(version)`.
-    """
-
     VERSION_1 = "█", "░"
     VERSION_2 = "⣿", "⣀"
     VERSION_3 = "⬛", "⬜"
 
     @staticmethod
     def get_symbols(version: int) -> Tuple[str, str]:
-        """
-        Retrieves symbols pair for specified version.
-
-        :param version: Required symbols version.
-        :returns: Two strings for filled and empty symbol value in a tuple.
-        """
         return Symbol[f"VERSION_{version}"].value
 
 
 def make_graph(percent: float):
-    """
-    Make text progress bar.
-    Length of the progress bar is 25 characters.
-
-    :param percent: Completion percent of the progress bar.
-    :return: The string progress bar representation.
-    """
     done_block, empty_block = Symbol.get_symbols(EM.SYMBOL_VERSION)
     percent_quart = round(percent / 4)
     return f"{done_block * percent_quart}{empty_block * (25 - percent_quart)}"
 
 
-def make_list(data: List = None, names: List[str] = None, texts: List[str] = None, percents: List[float] = None, top_num: int = 5, sort: bool = True) -> str:
-    """
-    Make list of text progress bars with supportive info.
-    Each row has the following structure: [name of the measure] [quantity description (with words)] [progress bar] [total percentage].
-    Name of the measure: up to 25 characters.
-    Quantity description: how many _things_ were found, up to 20 characters.
-    Progress bar: measure percentage, 25 characters.
-    Total percentage: floating point percentage.
-
-    :param data: list of dictionaries, each of them containing a measure (name, text and percent).
-    :param names: list of names (names of measure), overloads data if defined.
-    :param texts: list of texts (quantity descriptions), overloads data if defined.
-    :param percents: list of percents (total percentages), overloads data if defined.
-    :param top_num: how many measures to display, default: 5.
-    :param sort: if measures should be sorted by total percentage, default: True.
-    :returns: The string representation of the list.
-    """
+def make_list(data: List = None, names: List[str] = None, texts: List[str] = None, percents: List[float] = None, top_num: int = 7, sort: bool = True) -> str:
     if data is not None:
         names = [value for item in data for key, value in item.items() if key == "name"] if names is None else names
         texts = [value for item in data for key, value in item.items() if key == "text"] if texts is None else texts
         percents = [value for item in data for key, value in item.items() if key == "percent"] if percents is None else percents
 
-    if "Chrome" in names:
-        index = names.index("Chrome")
-        names.pop(index)
-        texts.pop(index)
-        percents.pop(index)
-    if "Other" in names:
-        index = names.index("Other")
-        names.pop(index)
-        texts.pop(index)
-        percents.pop(index)
-    if "Unknown OS" in names:
-        index = names.index("Unknown OS")
-        names.pop(index)
-        texts.pop(index)
-        percents.pop(index)
+    banned_names = ["Other", "Unknown", "Unknown OS", "Unknown Language"]
+
+    for banned_name in banned_names:
+        if banned_name in names:
+            index = names.index(banned_name)
+            names.pop(index)
+            texts.pop(index)
+            percents.pop(index)
 
     data = list(zip(names, texts, percents))
     top_data = sorted(data[:top_num], key=lambda record: record[2], reverse=True) if sort else data[:top_num]
     data_list = [f"{n[:25]}{' ' * (25 - len(n))}{t}{' ' * (20 - len(t))}{make_graph(p)}   {p:05.2f} % " for n, t, p in top_data]
-
     data_list = [row for row in data_list if float(row.split()[-2]) >= 0.7]
 
     return "\n".join(data_list)
 
 
 async def make_commit_day_time_list(time_zone: str, repositories: Dict, commit_dates: Dict) -> str:
-    """
-    Calculate commit-related info, how many commits were made, and at what time of day and day of week.
-
-    :param time_zone: User time zone.
-    :param repositories: User repositories list.
-    :param commit_dates: User commit data list.
-    :returns: string representation of statistics.
-    """
     stats = str()
     day_times = [0] * 4  # 0 - 6, 6 - 12, 12 - 18, 18 - 24
     week_days = [0] * 7  # Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
@@ -140,12 +90,6 @@ async def make_commit_day_time_list(time_zone: str, repositories: Dict, commit_d
 
 
 def make_language_per_repo_list(repositories: Dict) -> str:
-    """
-    Calculate language-related info, how many repositories in what language user has.
-
-    :param repositories: User repositories.
-    :returns: string representation of statistics.
-    """
     language_count = dict()
     repos_with_language = [repo for repo in repositories if repo["primaryLanguage"] is not None]
     for repo in repos_with_language:
