@@ -30,7 +30,7 @@ async def get_waka_time_stats(repositories: Dict, commit_dates: Dict) -> str:
     DBM.i("Adding short WakaTime stats...")
     stats = str()
 
-    data = await DM.get_remote_json("waka_latest")
+    data = await DM.get_remote_json("waka_all")
     if data is None:
         DBM.p("WakaTime data unavailable!")
         return stats
@@ -40,7 +40,7 @@ async def get_waka_time_stats(repositories: Dict, commit_dates: Dict) -> str:
 
     if EM.SHOW_TIMEZONE or EM.SHOW_LANGUAGE or EM.SHOW_EDITORS or EM.SHOW_PROJECTS or EM.SHOW_OS:
         no_activity = FM.t("No Activity Tracked This Week")
-        stats += f"📊 **{FM.t('This Week I Spend My Time On')}** \n\n```text\n"
+        stats += f"📊 **{FM.t('Since my first "Hello World!", I have spent time on')}** \n\n```text\n"
 
         if EM.SHOW_TIMEZONE:
             DBM.i("Adding user timezone info...")
@@ -174,7 +174,7 @@ async def get_stats() -> str:
 
     if EM.SHOW_PROFILE_VIEWS:
         DBM.i("Adding profile views info...")
-        data = GHM.REMOTE.get_views_traffic(per="week")
+        data = GHM.REMOTE.get_views_traffic()
         stats += f"![Profile Views](http://img.shields.io/badge/{quote(FM.t('Profile Views'))}-{data['count']}-blue)\n\n"
 
     if EM.SHOW_LINES_OF_CODE:

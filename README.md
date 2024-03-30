@@ -255,10 +255,10 @@ CSS          2 repos        █░░░░░░░░░░░░░░░░�
 
 `SYMBOL_VERSION` flag can be set symbol for progress bar (default: `1`)
 | Version | Done block | Empty block |
-|-------- | ---------- | ----------- |
-|    1    |      █     |       ░     |
-|    2    |      ⣿     |       ⣀     |
-|    3    |      ⬛    |       ⬜    |
+| ------- | ---------- | ----------- |
+| 1       | █          | ░           |
+| 2       | ⣿          | ⣀           |
+| 3       | ⬛          | ⬜           |
 
 `DEBUG_LOGGING` flag can be set to increase action output verbosity, by default equals internal runner debug property
 

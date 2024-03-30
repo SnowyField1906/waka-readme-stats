@@ -69,6 +69,17 @@ def make_list(data: List = None, names: List[str] = None, texts: List[str] = Non
         texts = [value for item in data for key, value in item.items() if key == "text"] if texts is None else texts
         percents = [value for item in data for key, value in item.items() if key == "percent"] if percents is None else percents
 
+    if "Chrome" in names:
+        index = names.index("Chrome")
+        names.pop(index)
+        texts.pop(index)
+        percents.pop(index)
+    if "Other" in names:
+        index = names.index("Other")
+        names.pop(index)
+        texts.pop(index)
+        percents.pop(index)
+
     data = list(zip(names, texts, percents))
     top_data = sorted(data[:top_num], key=lambda record: record[2], reverse=True) if sort else data[:top_num]
     data_list = [f"{n[:25]}{' ' * (25 - len(n))}{t}{' ' * (20 - len(t))}{make_graph(p)}   {p:05.2f} % " for n, t, p in top_data]
@@ -114,7 +125,7 @@ async def make_commit_day_time_list(time_zone: str, repositories: Dict, commit_d
         wd_names = [FM.t(week_day) for week_day in WEEK_DAY_NAMES]
         wd_texts = [f"{week_day} commits" for week_day in week_days]
         wd_percents = [0 if sum_week == 0 else round((week_day / sum_week) * 100, 2) for week_day in week_days]
-        title = FM.t("I am Most Productive on") % wd_names[wd_percents.index(max(wd_percents))]
+        title = FM.t("I'm most productive on") % wd_names[wd_percents.index(max(wd_percents))]
         stats += f"📅 **{title}** \n\n```text\n{make_list(names=wd_names, texts=wd_texts, percents=wd_percents, top_num=7, sort=False)}\n```\n"
 
     return stats
@@ -139,5 +150,5 @@ def make_language_per_repo_list(repositories: Dict) -> str:
     percents = [round(language_count[lang]["count"] / len(repos_with_language) * 100, 2) for lang in names]
 
     top_language = max(list(language_count.keys()), key=lambda x: language_count[x]["count"])
-    title = f"**{FM.t('I Mostly Code in') % top_language}** \n\n" if len(repos_with_language) > 0 else ""
+    title = f"**{FM.t('I mostly code in') % top_language}** \n\n" if len(repos_with_language) > 0 else ""
     return f"{title}```text\n{make_list(names=names, texts=texts, percents=percents)}\n```\n\n"
