@@ -6,8 +6,6 @@ from datetime import datetime
 from typing import Dict
 from urllib.parse import quote
 
-from humanize import intword, naturalsize, intcomma
-
 from manager_download import init_download_manager, DownloadManager as DM
 from manager_environment import EnvironmentManager as EM
 from manager_github import init_github_manager, GitHubManager as GHM
@@ -38,38 +36,6 @@ async def get_waka_time_stats(repositories: Dict, commit_dates: Dict) -> str:
 
     return f"{stats[:-1]}```\n\n"
 
-
-async def get_short_github_info() -> str:
-    stats = "**🐱 My GitHub Data** \n\n"
-    data = await DM.get_remote_json("github_stats")
-
-    disk_usage = "Used in GitHub's Storage" % naturalsize(GHM.USER.disk_usage)
-    stats += f"> 📦 {disk_usage} \n > \n"
-
-    contributions = "Contributions in the year" % intcomma(data["years"][0]["total"]), data["years"][0]["year"]
-    stats += f"> 🏆 {contributions}\n > \n"
-
-    opted_to_hire = GHM.USER.hireable
-    if opted_to_hire:
-        stats += "> 💼 Opted to Hire\n > \n"
-    else:
-        stats += "> 🚫 Not Opted to Hire\n > \n"
-
-    public_repo = GHM.USER.public_repos
-    if public_repo != 1:
-        stats += f"> 📜 {'public repositories' % public_repo} \n > \n"
-    else:
-        stats += f"> 📜 {'public repository' % public_repo} \n > \n"
-
-    private_repo = GHM.USER.owned_private_repos if GHM.USER.owned_private_repos is not None else 0
-    if public_repo != 1:
-        stats += f"> 🔑 {'private repositories' % private_repo} \n > \n"
-    else:
-        stats += f"> 🔑 {'private repository' % private_repo} \n > \n"
-
-    return stats
-
-
 async def collect_user_repositories() -> Dict:
     repositories = await DM.get_remote_graphql("user_repository_list", username=GHM.USER.login, id=GHM.USER.node_id)
     repo_names = [repo["name"] for repo in repositories]
@@ -87,9 +53,6 @@ async def get_stats() -> str:
     repositories = await collect_user_repositories()
     yearly_data, commit_data = await calculate_commit_data(repositories)
     stats = await get_waka_time_stats(repositories, commit_data)
-
-    if EM.SHOW_SHORT_INFO:
-        stats += await get_short_github_info()
 
     if EM.SHOW_LANGUAGE_PER_REPO:
         stats += f"{make_language_per_repo_list(repositories)}\n\n"
