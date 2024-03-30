@@ -89,7 +89,7 @@ def make_list(data: List = None, names: List[str] = None, texts: List[str] = Non
     top_data = sorted(data[:top_num], key=lambda record: record[2], reverse=True) if sort else data[:top_num]
     data_list = [f"{n[:25]}{' ' * (25 - len(n))}{t}{' ' * (20 - len(t))}{make_graph(p)}   {p:05.2f} % " for n, t, p in top_data]
 
-    data_list = [row for row in data_list if float(row.split()[-1]) >= 0.7]
+    data_list = [row for row in data_list if float(row.split()[-2]) >= 0.7]
 
     return "\n".join(data_list)
 
