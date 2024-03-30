@@ -43,12 +43,6 @@ async def get_waka_time_stats(repositories: Dict, commit_dates: Dict) -> str:
 
 
 async def get_short_github_info() -> str:
-    """
-    Collects user info from GitHub public profile.
-    The stats include: disk usage, contributions number, whether the user has opted to hire, public and private repositories number.
-
-    :returns: String representation of the info.
-    """
     stats = f"**🐱 {FM.t('My GitHub Data')}** \n\n"
     data = await DM.get_remote_json("github_stats")
 
@@ -97,9 +91,9 @@ async def collect_user_repositories() -> Dict:
 
 
 async def get_stats() -> str:
-    stats = await get_waka_time_stats(repositories, commit_data)
     repositories = await collect_user_repositories()
     yearly_data, commit_data = await calculate_commit_data(repositories)
+    stats = await get_waka_time_stats(repositories, commit_data)
 
     if EM.SHOW_SHORT_INFO:
         stats += await get_short_github_info()
