@@ -188,12 +188,12 @@ async def get_stats() -> str:
         if data is None:
             DBM.p("WakaTime data unavailable!")
         else:
-            stats += f"![Code Time](http://img.shields.io/badge/{quote('Code Time')}-{quote(str(data['data']['text']))}-blue) "
+            stats += f"![Code Time](http://img.shields.io/badge/{quote('Code time')}-{quote(str(data['data']['text']))}-blue) "
 
     if EM.SHOW_PROFILE_VIEWS:
         DBM.i("Adding profile views info...")
         data = GHM.REMOTE.get_views_traffic()
-        stats += f"![Profile Views](http://img.shields.io/badge/{quote(FM.t('Profile Views'))}-{data['count']}-blue) "
+        stats += f"![Profile Views](http://img.shields.io/badge/{quote(FM.t('Profile views'))}-{data['count']}-blue) "
 
     if EM.SHOW_LINES_OF_CODE:
         DBM.i("Adding lines of code info...")
