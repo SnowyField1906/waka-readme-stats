@@ -69,16 +69,16 @@ async def get_stats() -> str:
     if EM.SHOW_TOTAL_CODE_TIME:
         data = await DM.get_remote_json("waka_all")
         data = str(data['data']['text'])
-        stats += f"![I have been coding for](http://img.shields.io/badge/{quote('I have been coding for')}-{quote(data)}-blue)\n\n"
+        stats += f"![I have been coding for](http://img.shields.io/badge/{quote('I have been coding for')}-{quote(data)}-blue)  "
 
     if EM.SHOW_LINES_OF_CODE:
         total_loc = sum([yearly_data[y][q][d]["add"] for y in yearly_data.keys() for q in yearly_data[y].keys() for d in yearly_data[y][q].keys()])
         data = f"{intword(total_loc)} lines of code"
-        stats += f"![Lines of code](https://img.shields.io/badge/'I have been writing-{quote(data)}-blue)\n\n"
+        stats += f"![Lines of code](https://img.shields.io/badge/{quote('I have been writing')}-{quote(data)}-blue)  "
 
     if EM.SHOW_PROFILE_VIEWS:
         data = GHM.REMOTE.get_views_traffic()
-        stats += f"![Profile views](http://img.shields.io/badge/'Profile views-{data['count']}-blue)"
+        stats += f"![Profile views](http://img.shields.io/badge/'Profile views-{data['count']}-blue)\n\n"
 
     return stats
 
