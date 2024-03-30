@@ -95,7 +95,7 @@ def make_language_per_repo_list(repositories: Dict) -> str:
         language_count[language]["count"] += 1
 
     names = list(language_count.keys())
-    texts = [f"{language_count[lang]['count']} {'repo' if language_count[lang]['count'] == 1 else 'repos'}" for lang in names]
+    texts = [f"{language_count[lang]['count']} {'repository' if language_count[lang]['count'] == 1 else 'repositories'}" for lang in names]
     percents = [round(language_count[lang]["count"] / len(repos_with_language) * 100, 2) for lang in names]
 
     top_language = max(list(language_count.keys()), key=lambda x: language_count[x]["count"])
