@@ -25,10 +25,10 @@ async def get_waka_time_stats(repositories: Dict, commit_dates: Dict) -> str:
     stats+= "📊 **Since my first \"Hello World!\", I have spent time on** \n\n```text\n"
 
     lang_list = make_list(data["data"]["languages"])
-    stats += f"💬 Languages: \n{lang_list}\n\n"
+    stats += f"📚 Languages: \n{lang_list}\n\n"
 
     edit_list = make_list(data["data"]["editors"])
-    stats += f"🔥 Editors: \n{edit_list}\n\n"
+    stats += f"📑 Editors: \n{edit_list}\n\n"
 
     os_list = make_list(data["data"]["operating_systems"])
     stats += f"💻 Operating Systems: \n{os_list}\n\n"
@@ -54,7 +54,7 @@ async def get_stats() -> str:
     yearly_data, commit_data = await calculate_commit_data(repositories)
     stats = await get_waka_time_stats(repositories, commit_data)
 
-    stats += f"{make_language_per_repo_list(repositories)}\n\n"
+    # stats += f"{make_language_per_repo_list(repositories)}\n\n"
 
     data = await DM.get_remote_json("waka_all")
     data = str(data['data']['text'])

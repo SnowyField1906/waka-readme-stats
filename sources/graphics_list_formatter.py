@@ -7,7 +7,6 @@ from pytz import timezone, utc
 from manager_environment import EnvironmentManager as EM
 
 
-DAY_TIME_EMOJI = ["🌞", "🌆", "🌃", "🌙"]  # Emojis, representing different times of day.
 DAY_TIME_NAMES = ["Morning", "Daytime", "Evening", "Night"]  # Localization identifiers for different times of day.
 WEEK_DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]  # Localization identifiers for different days of week.
 
@@ -71,10 +70,10 @@ async def make_commit_day_time_list(time_zone: str, repositories: Dict, commit_d
     sum_week = sum(week_days)
     day_times = day_times[1:] + day_times[:1]
 
-    dt_names = [f"{DAY_TIME_EMOJI[i]} {DAY_TIME_NAMES[i]}" for i in range(len(day_times))]
+    dt_names = [f"{DAY_TIME_NAMES[i]}" for i in range(len(day_times))]
     dt_texts = [f"{day_time} commits" for day_time in day_times]
     dt_percents = [0 if sum_day == 0 else round((day_time / sum_day) * 100, 2) for day_time in day_times]
-    title = "I'm an early bird" if sum(day_times[0:2]) >= sum(day_times[2:4]) else "I'm a night owl"
+    title = "🐥 I'm an early bird" if sum(day_times[0:2]) >= sum(day_times[2:4]) else "🦉 I'm a night owl"
     stats += f"**{title}** \n\n```text\n{make_list(names=dt_names, texts=dt_texts, percents=dt_percents, top_num=7, sort=False)}\n```\n"
 
     wd_names = [week_day for week_day in WEEK_DAY_NAMES]
