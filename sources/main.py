@@ -42,7 +42,6 @@ async def get_waka_time_stats(repositories: Dict, commit_dates: Dict) -> str:
         no_activity = FM.t("No Activity Tracked This Week")
         stats += f"📊 **{FM.t('Since my first Hello World, I have spent time on')}** \n\n```text\n"
 
-
         if EM.SHOW_TIMEZONE:
             DBM.i("Adding user timezone info...")
             time_zone = data["data"]["timezone"]
