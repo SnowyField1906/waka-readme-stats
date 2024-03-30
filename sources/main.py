@@ -11,7 +11,6 @@ from manager_download import init_download_manager, DownloadManager as DM
 from manager_environment import EnvironmentManager as EM
 from manager_github import init_github_manager, GitHubManager as GHM
 from manager_debug import init_debug_manager, DebugManager as DBM
-from graphics_chart_drawer import create_loc_graph, GRAPH_PATH
 from yearly_commit_calculator import calculate_commit_data
 from graphics_list_formatter import make_list, make_commit_day_time_list, make_language_per_repo_list
 
@@ -23,7 +22,7 @@ async def get_waka_time_stats(repositories: Dict, commit_dates: Dict) -> str:
     commit_list = await make_commit_day_time_list(data['data']['timezone'], repositories, commit_dates)
     stats += f"{commit_list}\n\n"
 
-    stats = "📊 **Since my first \"Hello World!\", I have spent time on** \n\n```text\n"
+    stats+= "📊 **Since my first \"Hello World!\", I have spent time on** \n\n```text\n"
 
     lang_list = make_list(data["data"]["languages"])
     stats += f"💬 Languages: \n{lang_list}\n\n"
