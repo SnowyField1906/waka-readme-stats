@@ -6,14 +6,6 @@ from typing import Dict, Optional, Any
 from manager_environment import EnvironmentManager as EM
 
 
-def init_localization_manager():
-    """
-    Initialize localization manager.
-    Load GUI translations JSON file.
-    """
-    FileManager.load_localization("translation.json")
-
-
 class FileManager:
     """
     Class for handling localization (and maybe other file IO in future).
