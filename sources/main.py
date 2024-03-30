@@ -30,7 +30,7 @@ async def get_waka_time_stats(repositories: Dict, commit_dates: Dict) -> str:
     DBM.i("Adding short WakaTime stats...")
     stats = str()
 
-    data = await DM.get_remote_json("waka_all")
+    data = await DM.get_remote_json("waka_latest")
     if data is None:
         DBM.p("WakaTime data unavailable!")
         return stats
