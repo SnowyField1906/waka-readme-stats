@@ -56,13 +56,18 @@ async def get_stats() -> str:
 
     # stats += f"{make_language_per_repo_list(repositories)}\n\n"
 
+    stats += f"<div align='center'>"
+
     data = await DM.get_remote_json("waka_all")
-    data = str(data['data']['text'])
-    stats += f"![I have been coding for](http://img.shields.io/badge/{quote('I have been coding for')}-{quote(data)}-blue)  "
+    data = data['data']['text']
+
+    stats += f"<img src='http://img.shields.io/badge/{quote('I have been coding for')}-{quote(data)}-gray?style=for-the-badge&labelColor=white' />"
 
     total_loc = sum([yearly_data[y][q][d]["add"] for y in yearly_data.keys() for q in yearly_data[y].keys() for d in yearly_data[y][q].keys()])
     data = f"{intword(total_loc)} lines of code"
-    stats += f"![Lines of code](https://img.shields.io/badge/{quote('I have been writing')}-{quote(data)}-blue)  "
+    stats += f"<img src='https://img.shields.io/badge/{quote('I have been writing')}-{quote(data)}-gray?style=for-the-badge&labelColor=white' />"
+    
+    stats += f"</div>\n\n"
 
     # data = GHM.REMOTE.get_views_traffic()
     # stats += f"![Profile views](http://img.shields.io/badge/'Profile views-{data['count']}-blue)\n\n"
