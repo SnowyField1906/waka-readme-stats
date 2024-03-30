@@ -17,11 +17,14 @@ from graphics_list_formatter import make_list, make_commit_day_time_list, make_l
 
 
 async def get_waka_time_stats(repositories: Dict, commit_dates: Dict) -> str:
-    stats = "📊 **Since my first \"Hello World!\", I have spent time on** \n\n```text\n"
+    stats = str()
     data = await DM.get_remote_json("waka_stats")
 
     if EM.SHOW_COMMIT or EM.SHOW_DAYS_OF_WEEK:
-        stats += f"{await make_commit_day_time_list(data['data']['timezone'], repositories, commit_dates)}\n\n"
+        commit_list = await make_commit_day_time_list(data['data']['timezone'], repositories, commit_dates)
+        stats += f"{commit_list}\n\n"
+
+    stats = "📊 **Since my first \"Hello World!\", I have spent time on** \n\n```text\n"
 
     if EM.SHOW_LANGUAGE:
         lang_list = make_list(data["data"]["languages"])
