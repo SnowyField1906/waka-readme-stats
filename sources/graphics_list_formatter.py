@@ -102,5 +102,5 @@ def make_language_per_repo_list(repositories: Dict) -> str:
 
     top_language = max(list(language_count.keys()), key=lambda x: language_count[x]["count"])
     title = f"**I mostly code in {top_language}** \n\n"
-    
+
     return f"{title}```text\n{make_list(names=names, texts=texts, percents=percents)}\n```\n\n"

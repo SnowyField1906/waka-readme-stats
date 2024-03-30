@@ -6,6 +6,7 @@ from datetime import datetime
 from typing import Dict
 from urllib.parse import quote
 
+from humanize import intword
 from manager_download import init_download_manager, DownloadManager as DM
 from manager_environment import EnvironmentManager as EM
 from manager_github import init_github_manager, GitHubManager as GHM
@@ -35,6 +36,7 @@ async def get_waka_time_stats(repositories: Dict, commit_dates: Dict) -> str:
         stats += f"💻 Operating Systems: \n{os_list}\n\n"
 
     return f"{stats[:-1]}```\n\n"
+
 
 async def collect_user_repositories() -> Dict:
     repositories = await DM.get_remote_graphql("user_repository_list", username=GHM.USER.login, id=GHM.USER.node_id)
