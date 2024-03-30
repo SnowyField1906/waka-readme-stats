@@ -40,7 +40,7 @@ async def get_waka_time_stats(repositories: Dict, commit_dates: Dict) -> str:
 
     if EM.SHOW_TIMEZONE or EM.SHOW_LANGUAGE or EM.SHOW_EDITORS or EM.SHOW_PROJECTS or EM.SHOW_OS:
         no_activity = FM.t("No Activity Tracked This Week")
-        stats += f"📊 **{FM.t('Since my first \"Hello World!\", I have spent time on')}** \n\n```text\n"
+        stats += f"📊 **{FM.t('Since my first Hello World, I have spent time on')}** \n\n```text\n"
 
 
         if EM.SHOW_TIMEZONE:
@@ -167,25 +167,6 @@ async def get_stats() -> str:
 
     stats += await get_waka_time_stats(repositories, commit_data)
 
-    if EM.SHOW_TOTAL_CODE_TIME:
-        DBM.i("Adding total code time info...")
-        data = await DM.get_remote_json("waka_all")
-        if data is None:
-            DBM.p("WakaTime data unavailable!")
-        else:
-            stats += f"![Code Time](http://img.shields.io/badge/{quote('Code Time')}-{quote(str(data['data']['text']))}-blue)\n\n"
-
-    if EM.SHOW_PROFILE_VIEWS:
-        DBM.i("Adding profile views info...")
-        data = GHM.REMOTE.get_views_traffic()
-        stats += f"![Profile Views](http://img.shields.io/badge/{quote(FM.t('Profile Views'))}-{data['count']}-blue)\n\n"
-
-    if EM.SHOW_LINES_OF_CODE:
-        DBM.i("Adding lines of code info...")
-        total_loc = sum([yearly_data[y][q][d]["add"] for y in yearly_data.keys() for q in yearly_data[y].keys() for d in yearly_data[y][q].keys()])
-        data = f"{intword(total_loc)} {FM.t('Lines of code')}"
-        stats += f"![Lines of code](https://img.shields.io/badge/{quote(FM.t('I have written'))}-{quote(data)}-blue)\n\n"
-
     if EM.SHOW_SHORT_INFO:
         stats += await get_short_github_info()
 
@@ -200,6 +181,25 @@ async def get_stats() -> str:
     if EM.SHOW_UPDATED_DATE:
         DBM.i("Adding last updated time...")
         stats += f"\n Last Updated on {datetime.now().strftime(EM.UPDATED_DATE_FORMAT)} UTC"
+
+    if EM.SHOW_TOTAL_CODE_TIME:
+        DBM.i("Adding total code time info...")
+        data = await DM.get_remote_json("waka_all")
+        if data is None:
+            DBM.p("WakaTime data unavailable!")
+        else:
+            stats += f"![Code Time](http://img.shields.io/badge/{quote('Code Time')}-{quote(str(data['data']['text']))}-blue) "
+
+    if EM.SHOW_PROFILE_VIEWS:
+        DBM.i("Adding profile views info...")
+        data = GHM.REMOTE.get_views_traffic()
+        stats += f"![Profile Views](http://img.shields.io/badge/{quote(FM.t('Profile Views'))}-{data['count']}-blue) "
+
+    if EM.SHOW_LINES_OF_CODE:
+        DBM.i("Adding lines of code info...")
+        total_loc = sum([yearly_data[y][q][d]["add"] for y in yearly_data.keys() for q in yearly_data[y].keys() for d in yearly_data[y][q].keys()])
+        data = f"{intword(total_loc)} {FM.t('Lines of code')}"
+        stats += f"![Lines of code](https://img.shields.io/badge/{quote(FM.t('I have written'))}-{quote(data)}-blue)\n\n"
 
     DBM.g("Stats for README collected!")
     return stats
