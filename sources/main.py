@@ -188,7 +188,7 @@ async def get_stats() -> str:
         if data is None:
             DBM.p("WakaTime data unavailable!")
         else:
-            stats += f"![Code Time](http://img.shields.io/badge/{quote('I have been coding for')}-{quote(str(data['data']['text']))}-blue) "
+            stats += f"![I have been coding for](http://img.shields.io/badge/{quote('I have been coding for')}-{quote(str(data['data']['text']))}-blue) "
 
     if EM.SHOW_PROFILE_VIEWS:
         DBM.i("Adding profile views info...")
