@@ -188,7 +188,7 @@ async def get_stats() -> str:
         if data is None:
             DBM.p("WakaTime data unavailable!")
         else:
-            stats += f"![Code Time](http://img.shields.io/badge/{quote('Code time')}-{quote(str(data['data']['text']))}-blue) "
+            stats += f"![Code Time](http://img.shields.io/badge/{quote('I have been coding for')}-{quote(str(data['data']['text']))}-blue) "
 
     if EM.SHOW_PROFILE_VIEWS:
         DBM.i("Adding profile views info...")
@@ -199,7 +199,7 @@ async def get_stats() -> str:
         DBM.i("Adding lines of code info...")
         total_loc = sum([yearly_data[y][q][d]["add"] for y in yearly_data.keys() for q in yearly_data[y].keys() for d in yearly_data[y][q].keys()])
         data = f"{intword(total_loc)} {FM.t('Lines of code')}"
-        stats += f"![Lines of code](https://img.shields.io/badge/{quote(FM.t('I have written'))}-{quote(data)}-blue)\n\n"
+        stats += f"![Lines of code](https://img.shields.io/badge/{quote(FM.t('I have been writing'))}-{quote(data)}-blue)\n\n"
 
     DBM.g("Stats for README collected!")
     return stats
