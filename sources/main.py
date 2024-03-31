@@ -12,7 +12,7 @@ from manager_environment import EnvironmentManager as EM
 from manager_github import init_github_manager, GitHubManager as GHM
 from manager_debug import init_debug_manager, DebugManager as DBM
 from yearly_commit_calculator import calculate_commit_data
-from graphics_list_formatter import make_list, make_commit_day_time_list, make_language_per_repo_list
+from graphics_list_formatter import make_list, make_commit_day_time_list
 
 
 async def get_waka_time_stats(repositories: Dict, commit_dates: Dict) -> str:
@@ -22,7 +22,7 @@ async def get_waka_time_stats(repositories: Dict, commit_dates: Dict) -> str:
     commit_list = await make_commit_day_time_list(data['data']['timezone'], repositories, commit_dates)
     stats += f"{commit_list}\n\n"
 
-    stats+= "📊 **I have spent time on** \n\n```text\n"
+    stats += "📊 **I have spent time on** \n\n```text\n"
 
     lang_list = make_list(data["data"]["languages"])
     stats += f"📚 Languages: \n{lang_list}\n\n"
@@ -56,7 +56,7 @@ async def get_stats() -> str:
 
     # stats += f"{make_language_per_repo_list(repositories)}\n\n"
 
-    stats += f"<div align='center'><samp></br>~~~</br></br></samp>"
+    stats += "<div align='center'><samp></br>~~~</br></br></samp>"
 
     total_time = await DM.get_remote_json("waka_all")
     hours = int(total_time['data']['text'].split(" ")[0])
@@ -68,8 +68,8 @@ async def get_stats() -> str:
     total_loc = sum([yearly_data[y][q][d]["add"] for y in yearly_data.keys() for q in yearly_data[y].keys() for d in yearly_data[y][q].keys()])
     data = f"{intword(total_loc)} lines of code"
     stats += f"<img src='https://img.shields.io/badge/{quote(data)}-black?style=for-the-badge' />"
-    
-    stats += f"</div>\n\n"
+
+    stats += "</div>\n\n"
 
     # data = GHM.REMOTE.get_views_traffic()
     # stats += f"![Profile views](http://img.shields.io/badge/'Profile views-{data['count']}-blue)\n\n"
