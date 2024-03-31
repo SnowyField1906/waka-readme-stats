@@ -56,7 +56,7 @@ async def get_stats() -> str:
 
     # stats += f"{make_language_per_repo_list(repositories)}\n\n"
 
-    stats += f"<div align='center'>"
+    stats += f"<div align='center'><samp></br>~~~</br></br></samp>"
 
     data = await DM.get_remote_json("waka_all")
     data = data['data']['text']
