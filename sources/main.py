@@ -22,7 +22,7 @@ async def get_waka_time_stats(repositories: Dict, commit_dates: Dict) -> str:
     commit_list = await make_commit_day_time_list(data['data']['timezone'], repositories, commit_dates)
     stats += f"{commit_list}\n\n"
 
-    stats+= "📊 **Since my first \"Hello World!\", I have spent time on** \n\n```text\n"
+    stats+= "📊 **I have spent time on** \n\n```text\n"
 
     lang_list = make_list(data["data"]["languages"])
     stats += f"📚 Languages: \n{lang_list}\n\n"
