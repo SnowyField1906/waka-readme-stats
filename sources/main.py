@@ -59,7 +59,7 @@ async def get_stats() -> str:
     stats += "<div align='center'><samp></br>~~~</br></br></samp>"
 
     total_time = await DM.get_remote_json("waka_all")
-    hours = int(total_time['data']['text'].split(" ")[0])
+    hours = int(total_time['data']['text'].split(" ")[0].replace(",", ""))
     minutes = int(total_time['data']['text'].split(" ")[2])
     data = f"{hours + 1 if minutes > 30 else hours} coding hours"
 
