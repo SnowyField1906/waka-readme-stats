@@ -60,7 +60,7 @@ async def get_stats() -> str:
 
     total_time = await DM.get_remote_json("waka_all")
     total_hours = int(total_time['data']['text'].split(" ")[0].replace(",", ""))
-    data = f"{intword(total_hours)} coding hours"
+    data = f"{intword(total_hours)} hours of coding"
     stats += f"<img src='http://img.shields.io/badge/{quote(data)}-black?style=for-the-badge' /> "
 
     total_loc = sum([yearly_data[y][q][d]["add"] for y in yearly_data.keys() for q in yearly_data[y].keys() for d in yearly_data[y][q].keys()])
