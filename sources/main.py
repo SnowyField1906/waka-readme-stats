@@ -59,7 +59,7 @@ async def get_stats() -> str:
     stats += f"<div align='center'><samp></br>~~~</br></br></samp>"
 
     total_time = await DM.get_remote_json("waka_all")
-    data = f"{total_time['data']['text']} coding"
+    data = f"{total_time['data']['text']} coding time"
 
     stats += f"<img src='http://img.shields.io/badge/{quote(data)}-black?style=for-the-badge' /> "
 
